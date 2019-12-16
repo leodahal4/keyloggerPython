@@ -7,7 +7,7 @@ The sender address is by your wish, you can leave as it is or change it on your 
 
 just run on the victim's machine as,
 
-python3 keylogger.py
+	python3 keylogger.py
 
 
 Coming updates:
