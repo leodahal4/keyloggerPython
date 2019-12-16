@@ -1,5 +1,4 @@
-# keyloggerPython
-This is a keylogger made using python3.
+# keylogger Using Python
 
 You can just remove the receiver address and then get started using this small but powerfull keylogger program made with python3.
 
