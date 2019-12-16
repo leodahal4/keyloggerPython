@@ -11,9 +11,9 @@ import platform
 import getpass
 
 mail_content = "Mail with attachment."
-sender_address = 'leodahal44@gmail.com'
-sender_pass = 'programmerleodahal'
-receiver_address = 'leodahal44@gmail.com'
+sender_address = 'leodahal44@gmail.com'  # Enter your fake id here.
+sender_pass = 'programmerleodahal'  # Original pass of fake id
+receiver_address = 'leodahal44@gmail.com'  # Enter the receiver id
 attach_file_name = ''
 attach_file = ''
 message = ''
